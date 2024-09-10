@@ -193,6 +193,8 @@
       const meeting = new Metered.Meeting();
       // Creating a Global variable to store the Meeting ID
       let meetingId = "";
+      let domain = "";
+
 
       $("#joinExistingMeeting").on("click", async function (e) {
         if (e) e.preventDefault();
@@ -255,6 +257,7 @@
         let audioOutputDevices = [];
 
         meetingId = localStorage.getItem('meetingId');
+        domain = localStorage.getItem('domain');
 
         // const storedFuncString = localStorage.getItem('loadDevices');
         // const storedFunc = Function.prototype.construct.call(Function, storedFuncString);
@@ -424,7 +427,7 @@
             console.log(meetingId);
 
             meetingInfo = await meeting.join({
-              roomURL: `smartmedic.metered.live/${meetingId}`,
+              roomURL: `${domain}/${meetingId}`,
               name: username,
             });
             console.log("Meeting joined", meetingInfo);
