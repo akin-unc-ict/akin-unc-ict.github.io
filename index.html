@@ -264,18 +264,26 @@
         $("#displayMeetingId").text(meetingId);
         $("#meetingIdContainer").removeClass("hidden");
 
-        try {
-          console.log(navigator);
-          await navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(err => {
-            console.error(err.name + ": " + err.message);
-          });
-        } catch (error) {
-          console.log("error loading device hardware.", ex);
+        // try {
+        //   await navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(err => {
+        //     console.error(err.name + ": " + err.message);
+        //   });
+        // } catch (error) {
+        //   console.log("error loading device hardware.", ex);
 
+        // }
+
+        try {
+          videoInputDevices = await meeting.listVideoInputDevices();
+          console.log(videoInputDevices);
+          gotDevices(videoInputDevices);
+        } catch (ex) {
+          console.log("option not available - it is unsupported in firefox", ex);
         }
 
         try {
           audioOutputDevices = await meeting.listAudioOutputDevices();
+          gotDevices(audioOutputDevices);
           console.log(audioOutputDevices);
         } catch (ex) {
           console.log("option not available - it is unsupported in firefox", ex);
@@ -284,6 +292,7 @@
         let audioInputDevices = [];
         try {
           audioInputDevices = await meeting.listAudioInputDevices();
+          gotDevices(audioInputDevices);
         } catch (ex) {
           console.log("camera not available or have disabled camera access", ex);
           audioUnavailable = true;
@@ -298,12 +307,8 @@
         $("#speakers").html(speakerOptions.join(""));
 
         // Selecting different camera
-        $("#cameras").on("click", async function (value) {
-          await navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(err => {
-            console.error(err.name + ": " + err.message);
-          });
-        });
-        $("#cameras").on("select", async function (value) {
+
+        $("#cameras").on("change", async function (value) {
           const deviceId = $("#cameras").val();
           console.log(deviceId);
           await meeting.chooseVideoInputDevice(deviceId);
