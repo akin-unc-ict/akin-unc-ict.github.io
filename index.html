@@ -85,13 +85,13 @@
 <body>
 
   <!-- Header Nav Bar -->
-  <div class="navbar mb-2 shadow-lg  bg-accent text-neutral-content">
+<!--   <div class="navbar mb-2 shadow-lg  bg-accent text-neutral-content">
     <div class="flex-none px-2 mx-2">
       <span class="text-lg font-bold">
         Smart Medic
       </span>
     </div>
-  </div>
+  </div> -->
   <!-- Header Nav Bar End -->
 
 
@@ -226,6 +226,7 @@
       // Creating a Global variable to store the Meeting ID
       let meetingId = "";
       let domain = "";
+      let username = '';
 
 
       $("#joinExistingMeeting").on("click", async function (e) {
@@ -451,7 +452,7 @@
 
         let meetingInfo = {};
         $("#joinMeetingButton").on("click", async function () {
-          var username = $("#username").val();
+          
           if (!username) {
             return alert("Please enter a username");
           }
